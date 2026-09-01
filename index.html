@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penny — Voice Assistant</title>
+<style>
+  :root {
+    --accent: #5B7CFA;
+    --accent-dark: #3d5bd9;
+    --bg: #07080C;
+    --bg-card: #12151F;
+    --text: #F2F3F7;
+    --text-muted: #9AA0B4;
+    --border: #23273A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
+  header { text-align: center; margin-bottom: 56px; }
+  .orb {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--accent), var(--accent-dark));
+    margin: 0 auto 20px;
+    box-shadow: 0 0 40px rgba(91,124,250,0.35);
+  }
+  h1 { font-size: 2.25rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .tagline { color: var(--text-muted); font-size: 1.05rem; margin: 0; }
+  h2 { font-size: 1.3rem; margin: 0 0 16px; }
+  section { margin-bottom: 48px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .feature {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .feature strong { display: block; margin-bottom: 4px; }
+  .feature span { color: var(--text-muted); font-size: 0.92rem; }
+  p { color: var(--text-muted); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 64px;
+    padding-top: 24px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="orb"></div>
+    <h1>Penny</h1>
+    <p class="tagline">A hands-free voice assistant for driving.</p>
+    <div class="badge">Personal / independent project — not affiliated with Google</div>
+  </header>
+
+  <section>
+    <h2>What Penny does</h2>
+    <p>
+      Penny is a voice assistant app, built to be used hands-free while driving.
+      You wake it with a spoken phrase, then talk to it naturally — it understands
+      requests and carries them out, the same way you'd ask a person sitting next
+      to you.
+    </p>
+    <div class="grid">
+      <div class="feature">
+        <strong>Calls &amp; messages</strong>
+        <span>Call or text a contact by name, with a spoken confirmation before anything is sent.</span>
+      </div>
+      <div class="feature">
+        <strong>Calendar &amp; tasks</strong>
+        <span>Ask what's on your schedule, set reminders, jot down notes or a shopping list.</span>
+      </div>
+      <div class="feature">
+        <strong>Navigation</strong>
+        <span>Get directions to a place, or back to where you parked.</span>
+      </div>
+      <div class="feature">
+        <strong>Music</strong>
+        <span>Control Spotify playback — play, pause, skip, search — without touching the phone.</span>
+      </div>
+      <div class="feature">
+        <strong>Weather &amp; questions</strong>
+        <span>Ask anything — Penny answers using Google's Gemini.</span>
+      </div>
+      <div class="feature">
+        <strong>Live translation</strong>
+        <span>Speak in one language, hear it translated aloud in another.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Privacy</h2>
+    <p>
+      Penny only accesses what it needs to carry out the request you make, and
+      nothing happens silently in the background — no proactive notifications,
+      no data collection beyond what a specific feature needs.
+      See the <a href="privacy.html">full privacy policy</a> for details on
+      exactly what's accessed and why.
+    </p>
+  </section>
+
+  <footer>
+    Penny is an independent, personal project.<br>
+    Contact: <a href="mailto:info@pennyvoice.com">info@pennyvoice.com</a>
+  </footer>
+
+</div>
+</body>
+</html>
