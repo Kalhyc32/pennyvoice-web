@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Penny</title>
+<style>
+  :root {
+    --accent: #5B7CFA;
+    --bg: #07080C;
+    --bg-card: #12151F;
+    --text: #F2F3F7;
+    --text-muted: #9AA0B4;
+    --border: #23273A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 56px 24px 96px; }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  a.back, a.lang { color: var(--text-muted); font-size: 0.9rem; text-decoration: none; }
+  a.back:hover, a.lang:hover { text-decoration: underline; }
+  h1 { font-size: 1.9rem; margin: 20px 0 4px; letter-spacing: -0.02em; }
+  .updated { color: var(--text-muted); font-size: 0.9rem; margin: 0 0 40px; }
+  h2 { font-size: 1.15rem; margin: 40px 0 12px; }
+  p, li { color: var(--text-muted); }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 10px; }
+  li strong { color: var(--text); }
+  a { color: var(--accent); }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 56px;
+    padding-top: 24px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html">&larr; Penny</a>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: September 1, 2026</p>
+
+  <p>
+    Penny is a personal, independent voice assistant app. This page explains
+    what data the app accesses, why, and what happens to it. Penny is built
+    around one rule: it only ever acts when you directly ask it to — nothing
+    runs, listens further, or sends data anywhere on its own initiative.
+  </p>
+
+  <h2>Google Account data</h2>
+  <p>If you choose to connect a Google account, Penny requests exactly three permissions:</p>
+  <ul>
+    <li><strong>Calendar events</strong> — to read your schedule and set entries when you ask it to, e.g. "what's on my calendar tomorrow."</li>
+    <li><strong>Google Tasks</strong> — to save voice notes and manage a shopping list you dictate.</li>
+    <li><strong>Drive (app-created files only)</strong> — Penny can only see and manage files it creates itself, never any other file in your Drive. This is used solely to optionally upload a diagnostic log when you ask for one.</li>
+  </ul>
+  <p>Penny never requests broader access to your Google account than this.</p>
+
+  <h2>Spotify account data</h2>
+  <p>
+    If you connect Spotify, Penny can control playback (play, pause, skip, search,
+    volume) on your behalf. It does not access your listening history, saved
+    library, or any personal data beyond what's needed to control playback.
+  </p>
+
+  <h2>Data on your device</h2>
+  <ul>
+    <li><strong>Microphone</strong> — a small on-device model listens locally for the wake phrase. Nothing is sent anywhere until the wake phrase is detected or you press to talk — at that point, your speech is sent to cloud services (Google Speech-to-Text and Gemini) to be understood and answered.</li>
+    <li><strong>Contacts</strong> — read on your device only, to match a spoken name to a phone number when you ask to call or text someone. Contact data is never uploaded anywhere.</li>
+    <li><strong>Location</strong> — used only to provide directions when you ask for navigation.</li>
+    <li><strong>Camera</strong> — used only when you explicitly ask Penny to look at something. The photo is sent once to Google Gemini for an answer and is not stored by the app afterward.</li>
+    <li><strong>Notifications</strong> — Penny can read your notifications aloud, but strictly only when you ask it to. It never reads, stores, or acts on notification content on its own.</li>
+  </ul>
+
+  <h2>Where things are stored</h2>
+  <p>
+    Account sign-in tokens are stored encrypted on your device (Android's secure
+    keystore) and are used only to talk directly to Google's or Spotify's own
+    servers on your behalf — Penny does not run its own backend server, and
+    tokens are never sent anywhere else. App preferences (language, app color,
+    saved parking location, etc.) are stored as plain files on your device only.
+  </p>
+
+  <h2>Third-party processing</h2>
+  <p>
+    To understand and respond to what you say, your requests are sent to
+    Google's Gemini API. Speech recognition and voice output use Google Cloud's
+    speech APIs. These providers process the request text/audio needed to
+    answer you; Penny does not share your data with advertisers, data brokers,
+    or anyone else, and nothing is sold.
+  </p>
+
+  <h2>Your control over this</h2>
+  <p>
+    You can disconnect your Google or Spotify account at any time from within
+    the app, which revokes Penny's access immediately. Because Penny doesn't
+    run its own server, there is no separate copy of your data to delete
+    elsewhere — disconnecting is the deletion.
+  </p>
+
+  <div class="card">
+    <p style="margin:0">
+      Questions about this policy or your data? Contact
+      <a href="mailto:info@pennyvoice.com">info@pennyvoice.com</a>.
+    </p>
+  </div>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    If Penny's features change in a way that changes what data it accesses,
+    this page will be updated accordingly.
+  </p>
+
+  <footer>
+    Penny is an independent, personal project — not affiliated with Google or Spotify.
+  </footer>
+
+</div>
+</body>
+</html>

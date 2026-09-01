@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zásady ochrany soukromí — Penny</title>
+<style>
+  :root {
+    --accent: #5B7CFA;
+    --bg: #07080C;
+    --bg-card: #12151F;
+    --text: #F2F3F7;
+    --text-muted: #9AA0B4;
+    --border: #23273A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 56px 24px 96px; }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  a.back, a.lang { color: var(--text-muted); font-size: 0.9rem; text-decoration: none; }
+  a.back:hover, a.lang:hover { text-decoration: underline; }
+  h1 { font-size: 1.9rem; margin: 20px 0 4px; letter-spacing: -0.02em; }
+  .updated { color: var(--text-muted); font-size: 0.9rem; margin: 0 0 40px; }
+  h2 { font-size: 1.15rem; margin: 40px 0 12px; }
+  p, li { color: var(--text-muted); }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 10px; }
+  li strong { color: var(--text); }
+  a { color: var(--accent); }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 56px;
+    padding-top: 24px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <a class="back" href="index.html">&larr; Penny</a>
+    <a class="lang" href="privacy.html">English version</a>
+  </div>
+  <h1>Zásady ochrany soukromí</h1>
+  <p class="updated">Poslední aktualizace: 1. září 2026</p>
+
+  <p>
+    Penny je osobní, nezávislá hlasová asistentka. Tahle stránka vysvětluje,
+    k jakým datům appka přistupuje, proč, a co se s nimi děje. Penny funguje
+    na jednom pravidle: jedná pouze tehdy, když ji o to přímo požádáš —
+    nic neběží, neposlouchá dál ani nikam nic neposílá z vlastní iniciativy.
+  </p>
+
+  <h2>Data z Google účtu</h2>
+  <p>Pokud appce propojíš Google účet, žádá přesně tři oprávnění:</p>
+  <ul>
+    <li><strong>Události v kalendáři</strong> — aby ti přečetla program a založila záznam, když o to požádáš, např. "co mám zítra v kalendáři."</li>
+    <li><strong>Google Úkoly</strong> — pro ukládání hlasových poznámek a nákupního seznamu, který nadiktuješ.</li>
+    <li><strong>Disk (jen soubory vytvořené appkou)</strong> — appka vidí a spravuje pouze soubory, které sama vytvořila, nikdy žádný jiný soubor na tvém Disku. Používá se výhradně pro volitelné nahrání diagnostického logu, když o to požádáš.</li>
+  </ul>
+  <p>Penny nikdy nežádá širší přístup k tvému Google účtu, než tohle.</p>
+
+  <h2>Data ze Spotify účtu</h2>
+  <p>
+    Pokud propojíš Spotify, appka umí jménem tebe ovládat přehrávání (spustit,
+    pozastavit, přeskočit, vyhledat, hlasitost). Nepřistupuje k historii
+    poslechu, uložené knihovně ani žádným osobním datům nad rámec toho,
+    co potřebuje k ovládání přehrávání.
+  </p>
+
+  <h2>Data v telefonu</h2>
+  <ul>
+    <li><strong>Mikrofon</strong> — malý model přímo v telefonu naslouchá lokálně budicímu slovu. Nic se nikam neposílá, dokud appka budicí slovo nerozpozná nebo dokud nestiskneš tlačítko pro mluvení — teprve pak appka řeč pošle do cloudových služeb (Google rozpoznávání řeči a Gemini), aby jí porozuměla a odpověděla.</li>
+    <li><strong>Kontakty</strong> — čtené jen přímo v telefonu, aby appka spárovala vyřčené jméno s telefonním číslem, když ji požádáš o zavolání nebo SMS. Kontakty appka nikam nenahrává.</li>
+    <li><strong>Poloha</strong> — použitá jen pro navigaci, o kterou požádáš.</li>
+    <li><strong>Kamera</strong> — použitá jen když appku výslovně požádáš, ať se na něco podívá. Fotka se jednorázově pošle do Google Gemini kvůli odpovědi a appka ji dál neukládá.</li>
+    <li><strong>Oznámení</strong> — appka umí oznámení přečíst nahlas, ale výhradně na tvé přímé vyžádání. Sama od sebe obsah oznámení nikdy nečte, neukládá ani na jeho základě nejedná.</li>
+  </ul>
+
+  <h2>Kde se co ukládá</h2>
+  <p>
+    Přihlašovací tokeny appka ukládá zašifrovaně přímo v telefonu (bezpečné
+    úložiště Androidu) a používá je jen k přímé komunikaci s vlastními servery
+    Google/Spotify tvým jménem — appka nemá žádný svůj server a tokeny nikam
+    jinam neposílá. Nastavení appky (jazyk, barva appky, uložené místo
+    zaparkování apod.) jsou uložená jako obyčejné soubory pouze v telefonu.
+  </p>
+
+  <h2>Zpracování třetími stranami</h2>
+  <p>
+    Aby appka porozuměla tomu, co říkáš, a odpověděla, posílá tvůj dotaz do
+    Google Gemini API. Rozpoznávání řeči a hlasový výstup používají cloudové
+    služby Google. Tihle poskytovatelé zpracují jen text/zvuk potřebný
+    k odpovědi — appka data nesdílí s inzerenty, obchodníky s daty ani nikým
+    jiným, a nic neprodává.
+  </p>
+
+  <h2>Co s tím můžeš dělat</h2>
+  <p>
+    Google nebo Spotify účet můžeš kdykoliv v appce odpojit, čímž appce
+    okamžitě zanikne přístup. Appka nemá vlastní server, takže neexistuje
+    žádná další kopie tvých dat, kterou by bylo potřeba mazat zvlášť —
+    odpojení účtu je zároveň smazání.
+  </p>
+
+  <div class="card">
+    <p style="margin:0">
+      Dotaz k těmhle zásadám nebo ke svým datům? Napiš na
+      <a href="mailto:info@pennyvoice.com">info@pennyvoice.com</a>.
+    </p>
+  </div>
+
+  <h2>Změny těchto zásad</h2>
+  <p>
+    Pokud se funkce appky změní způsobem, který změní, k jakým datům
+    přistupuje, tahle stránka se odpovídajícím způsobem aktualizuje.
+  </p>
+
+  <footer>
+    Penny je nezávislý osobní projekt — nemá žádnou spojitost s Google ani Spotify.
+  </footer>
+
+</div>
+</body>
+</html>
