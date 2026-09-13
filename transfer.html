@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="pageTitle">Penny — přenos klíče</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.1/qrcode.js" integrity="sha512-hAz8pxm1kva4chZWPXQhGehvvlIj1Loka653sQXoYHNj4sgSukoR3ZKyHEOT7kFGVW17wUqD9CbKeviIJ2XFKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+  :root {
+    --accent: #5B7CFA;
+    --accent-dark: #3d5bd9;
+    --bg: #07080C;
+    --bg-card: #12151F;
+    --bg-input: #171B28;
+    --text: #F2F3F7;
+    --text-muted: #9AA0B4;
+    --border: #23273A;
+    --good: #2DD4A7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 48px 24px 96px; }
+  h1 { font-size: 26px; margin: 0 0 8px; }
+  .subtitle { color: var(--text-muted); margin: 0 0 24px; font-size: 15px; }
+  .notice {
+    background: rgba(45, 212, 167, 0.1);
+    border: 1px solid rgba(45, 212, 167, 0.3);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  label {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+  select, input {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14.5px;
+    margin-bottom: 16px;
+  }
+  select:focus, input:focus { outline: none; border-color: var(--accent); }
+  button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 20px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+  }
+  button:active { opacity: 0.85; }
+  .error { font-size: 13px; color: #ff5c72; display: none; margin: -8px 0 16px; }
+  .qr-wrap { display: none; flex-direction: column; align-items: center; gap: 14px; padding-top: 20px; }
+  .qr-wrap.visible { display: flex; }
+  .qr-frame { background: white; padding: 16px; border-radius: 12px; }
+  .qr-label { font-size: 13.5px; color: var(--text-muted); text-align: center; }
+  .qr-label b { color: var(--text); font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--text-muted); text-align: center; }
+  footer a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 id="h1">Přenes klíč nebo odkaz do telefonu</h1>
+  <p class="subtitle" id="subtitle">Vlož klíč nebo odkaz, který jsi právě vytvořil/a na počítači. Stránka z něj vykreslí QR kód, který pak v appce Penny naskenuješ.</p>
+
+  <div class="notice" id="notice">
+    Nic neodchází — stránka to jen vykreslí jako obrázek přímo v tvém prohlížeči. Nic se neposílá na žádný server, nic se neukládá.
+  </div>
+
+  <div class="card">
+    <div>
+      <label for="typ" id="typLabel">Co to je</label>
+      <select id="typ">
+        <option value="google_maps">Google Maps API klíč</option>
+        <option value="google_tts">Google Cloud Text-to-Speech klíč</option>
+        <option value="gemini">Gemini API klíč</option>
+        <option value="spotify">Spotify Client ID</option>
+        <option value="live_chat">Odkaz na live chat s Gemini</option>
+      </select>
+    </div>
+    <div>
+      <label for="klic" id="klicLabel">Klíč</label>
+      <input id="klic" type="text" placeholder="Vlož zkopírovaný klíč..." autocomplete="off" spellcheck="false">
+      <div class="error" id="chyba">Vlož prosím klíč, ať je co zakódovat.</div>
+    </div>
+    <button id="generuj">Vygenerovat QR kód</button>
+
+    <div class="qr-wrap" id="qrWrap">
+      <div class="qr-frame"><canvas id="qrCanvas"></canvas></div>
+      <p class="qr-label" id="qrPopisek"></p>
+    </div>
+  </div>
+
+  <footer id="footer">
+    Vygenerováno lokálně ve tvém prohlížeči, nic tuhle stránku neopouští.<br>
+    Penny je nezávislý osobní projekt. Kontakt: <a href="mailto:info@pennyvoice.com">info@pennyvoice.com</a>
+  </footer>
+</div>
+
+<script>
+// Appka jazyk stránky pozná z prohlížeče (navigator.language) - appka nemá
+// vlastní přepínač jako appka Penny sama, tahle stránka je jen krátká
+// zastávka, ne appka na sledování - "cs" (i "cs-CZ" apod.) appka zobrazí
+// česky, cokoli jiného anglicky (výchozí i pro budoucí uživatele appky
+// mimo ČR/SK, viz project_penny_future_ideas). Appka QR PAYLOAD (typ/klíč)
+// zůstává vždy stejný bez ohledu na jazyk stránky - appka Penny (viz
+// qr_sken_obrazovka.dart) čte jen pevné anglické identifikátory
+// ('gemini', 'google_maps'...), nikdy zobrazený text.
+const jazyk = (navigator.language || '').toLowerCase().startsWith('cs') ? 'cs' : 'en';
+document.documentElement.lang = jazyk;
+
+const T = {
+  cs: {
+    pageTitle: 'Penny — přenos klíče',
+    h1: 'Přenes klíč nebo odkaz do telefonu',
+    subtitle: 'Vlož klíč nebo odkaz, který jsi právě vytvořil/a na počítači. Stránka z něj vykreslí QR kód, který pak v appce Penny naskenuješ.',
+    notice: 'Nic neodchází — stránka to jen vykreslí jako obrázek přímo v tvém prohlížeči. Nic se neposílá na žádný server, nic se neukládá.',
+    typLabel: 'Co to je',
+    typy: {
+      google_maps: 'Google Maps API klíč',
+      google_tts: 'Google Cloud Text-to-Speech klíč',
+      gemini: 'Gemini API klíč',
+      spotify: 'Spotify Client ID',
+      live_chat: 'Odkaz na live chat s Gemini',
+    },
+    klicLabel: 'Klíč',
+    odkazLabel: 'Odkaz',
+    klicPlaceholder: 'Vlož zkopírovaný klíč...',
+    odkazPlaceholder: 'Vlož odkaz share.gemini.google/...',
+    chyba: 'Vlož prosím klíč, ať je co zakódovat.',
+    chybaQr: 'QR kód se nepodařilo vygenerovat — zkus to prosím znovu.',
+    generuj: 'Vygenerovat QR kód',
+    navodApiKlic: 'Otevři v telefonu appku Penny → Menu → API klíče → <b>Naskenovat QR</b> a namiř na tenhle kód.',
+    navodLiveChat: 'Otevři v telefonu appku Penny → Menu → Live chat s Gemini → <b>Naskenovat QR</b> a namiř na tenhle kód.',
+    kodJePro: 'Kód je pro: ',
+    footer: 'Vygenerováno lokálně ve tvém prohlížeči, nic tuhle stránku neopouští.<br>Penny je nezávislý osobní projekt. Kontakt: ',
+  },
+  en: {
+    pageTitle: 'Penny — key transfer',
+    h1: 'Transfer a key or link to your phone',
+    subtitle: "Paste the key or link you just created on your computer. This page turns it into a QR code you then scan in the Penny app.",
+    notice: "Nothing leaves this page — it's drawn as an image right in your browser. Nothing is sent to any server, nothing is stored.",
+    typLabel: 'What this is',
+    typy: {
+      google_maps: 'Google Maps API key',
+      google_tts: 'Google Cloud Text-to-Speech key',
+      gemini: 'Gemini API key',
+      spotify: 'Spotify Client ID',
+      live_chat: 'Live chat with Gemini link',
+    },
+    klicLabel: 'Key',
+    odkazLabel: 'Link',
+    klicPlaceholder: 'Paste your copied key...',
+    odkazPlaceholder: 'Paste the share.gemini.google/... link...',
+    chyba: "Please paste a key first, there's nothing to encode yet.",
+    chybaQr: 'Could not generate the QR code — please try again.',
+    generuj: 'Generate QR code',
+    navodApiKlic: 'On your phone, open Penny → Menu → API keys → <b>Scan QR</b> and point it at this code.',
+    navodLiveChat: 'On your phone, open Penny → Menu → Live chat with Gemini → <b>Scan QR</b> and point it at this code.',
+    kodJePro: 'This code is for: ',
+    footer: "Generated locally in your browser, nothing leaves this page.<br>Penny is an independent personal project. Contact: ",
+  },
+};
+const t = T[jazyk];
+
+document.title = t.pageTitle;
+document.getElementById('h1').textContent = t.h1;
+document.getElementById('subtitle').textContent = t.subtitle;
+document.getElementById('notice').textContent = t.notice;
+document.getElementById('typLabel').textContent = t.typLabel;
+for (const volba of document.querySelectorAll('#typ option')) {
+  volba.textContent = t.typy[volba.value];
+}
+document.getElementById('chyba').textContent = t.chyba;
+document.getElementById('generuj').textContent = t.generuj;
+document.getElementById('footer').innerHTML =
+  t.footer + '<a href="mailto:info@pennyvoice.com">info@pennyvoice.com</a>';
+
+const navodPodleTypu = (typ) => typ === 'live_chat' ? t.navodLiveChat : t.navodApiKlic;
+
+function aktualizovatPopisekPole() {
+  const je = document.getElementById('typ').value === 'live_chat';
+  document.getElementById('klicLabel').textContent = je ? t.odkazLabel : t.klicLabel;
+  document.getElementById('klic').placeholder = je ? t.odkazPlaceholder : t.klicPlaceholder;
+}
+document.getElementById('typ').addEventListener('change', aktualizovatPopisekPole);
+aktualizovatPopisekPole();
+
+document.getElementById('generuj').addEventListener('click', () => {
+  const typ = document.getElementById('typ').value;
+  const klic = document.getElementById('klic').value.trim();
+  const chyba = document.getElementById('chyba');
+  const qrWrap = document.getElementById('qrWrap');
+
+  if (!klic) {
+    chyba.textContent = t.chyba;
+    chyba.style.display = 'block';
+    qrWrap.classList.remove('visible');
+    return;
+  }
+  chyba.style.display = 'none';
+
+  // Appka payload držena stejná napříč jazyky (viz komentář výš u
+  // "const jazyk") - appka Penny čte jen "typ", ne zobrazený popisek.
+  const payload = 'penny-klic:' + typ + ':' + klic;
+  const canvas = document.getElementById('qrCanvas');
+  QRCode.toCanvas(canvas, payload, { width: 240, margin: 1 }, (err) => {
+    if (err) {
+      chyba.textContent = t.chybaQr;
+      chyba.style.display = 'block';
+      qrWrap.classList.remove('visible');
+      return;
+    }
+    document.getElementById('qrPopisek').innerHTML =
+      navodPodleTypu(typ) + '<br><br>' + t.kodJePro + '<b>' + t.typy[typ] + '</b>';
+    qrWrap.classList.add('visible');
+  });
+});
+
+document.getElementById('klic').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('generuj').click();
+});
+</script>
+</body>
+</html>
