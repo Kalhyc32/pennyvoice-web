@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="pageTitle">Penny — návod na Gemini API klíč</title>
+<style>
+  :root {
+    --accent: #5B7CFA;
+    --bg: #07080C;
+    --bg-card: #12151F;
+    --bg-input: #171B28;
+    --text: #F2F3F7;
+    --text-muted: #9AA0B4;
+    --border: #23273A;
+    --good: #2DD4A7;
+    --warn: #FFB454;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .subtitle { color: var(--text-muted); margin: 0 0 24px; font-size: 15px; }
+  .panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+  }
+  .panel-warn { border-color: rgba(255, 180, 84, 0.35); }
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--warn);
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  .panel ul { margin: 8px 0 0; padding-left: 20px; color: var(--text-muted); font-size: 13.5px; }
+  .panel li { margin-bottom: 8px; }
+  .panel a { color: var(--accent); }
+  ol.steps { list-style: none; counter-reset: krok; margin: 0; padding: 0; }
+  ol.steps > li {
+    counter-increment: krok;
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 28px;
+  }
+  ol.steps > li::before {
+    content: counter(krok);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(91, 124, 250, 0.15);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ol.steps p { margin: 2px 0 0; }
+  ol.steps img {
+    display: block;
+    max-width: 100%;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .notice {
+    background: rgba(45, 212, 167, 0.1);
+    border: 1px solid rgba(45, 212, 167, 0.3);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    margin: 8px 0 32px;
+  }
+  .cta {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 13px 20px;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  footer { margin-top: 40px; font-size: 13px; color: var(--text-muted); text-align: center; }
+  footer a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 id="h1">Jak získat Gemini API klíč</h1>
+  <p class="subtitle" id="subtitle">Krok za krokem, se skutečnými snímky obrazovky - klidně si tuhle stránku otevři vedle Google AI Studia a postupuj podle ní.</p>
+
+  <div class="panel panel-warn">
+    <div class="panel-title" id="panelTitle">
+      <span>&#9432;</span><span id="panelTitleText">Než začneš</span>
+    </div>
+    <ul id="panelList"></ul>
+    <div style="margin-top:10px"><a id="termsLink" href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noreferrer">Podmínky Gemini API &rarr;</a></div>
+  </div>
+
+  <ol class="steps" id="steps"></ol>
+
+  <div class="notice" id="transferNotice"></div>
+
+  <a class="cta" id="transferCta" href="/transfer.html">Přenést klíč do telefonu &rarr;</a>
+
+  <footer id="footer">
+    Penny je nezávislý osobní projekt. Kontakt: <a href="mailto:info@pennyvoice.com">info@pennyvoice.com</a>
+  </footer>
+</div>
+
+<script>
+// Appka jazyk stránky pozná z prohlížeče (navigator.language), stejně jako
+// transfer.html - appka nemá vlastní přepínač, tahle stránka je jen
+// zrcadlo tutoriálu z appky Penny (Menu -> Získat API klíče -> Gemini).
+const jazyk = (navigator.language || '').toLowerCase().startsWith('cs') ? 'cs' : 'en';
+document.documentElement.lang = jazyk;
+
+const IMG = 'gemini-guide/';
+
+const T = {
+  cs: {
+    pageTitle: 'Penny — návod na Gemini API klíč',
+    h1: 'Jak získat Gemini API klíč',
+    subtitle: 'Krok za krokem, se skutečnými snímky obrazovky - klidně si tuhle stránku otevři vedle Google AI Studia a postupuj podle ní.',
+    panelTitle: 'Než začneš',
+    panelList: [
+      'Klíč si vytvoříš na svůj VLASTNÍ Google účet - souhlasíš tím s podmínkami Google, ne s podmínkami appky Penny.',
+      'Google výslovně píše, že za zneužití nezabezpečeného API klíče neseš finanční odpovědnost ty.',
+      'AI Studio při vytváření klíče žádá potvrdit, že jde o "vývojářské/firemní" použití, ne běžné klikání v appce Gemini samotné - týká se to KAŽDÉHO, kdo si tam klíč vytvoří, i kdyby sám nic neprogramoval a jen procházel tenhle návod. Nejde o to, jestli jsi profesionál, jen o to, že klíč vzniká přes vývojářskou konzoli, ne v běžné appce.',
+      'Gemini API má bezplatnou úroveň (free tier), která appce Penny stačí i na běžné rodinné použití - appka na ni dostane až 500 dotazů denně, žádná karta, žádné placení. Přesný aktuální limit appka ukáže v AI Studiu po přihlášení (Dashboard → Rate limits).',
+    ],
+    termsLink: 'Podmínky Gemini API →',
+    steps: [
+      { text: 'Otevři <a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">aistudio.google.com/apikey</a> - appka tě přesměruje na přihlášení Google. Vyber/zadej svůj účet.', img: '01.png' },
+      { text: 'Appka se nejdřív zeptá na podmínky používání ("Welcome to AI Studio") - zaškrtni políčko souhlasu a klikni "Continue".', img: '02.png' },
+      { text: 'Appka tě pustí na "API Keys" - klikni "Create API key" vpravo nahoře.', img: '03.png' },
+      { text: 'Appka se zeptá na Google Cloud projekt - v rozbalovací nabídce zvol "Create project".', img: '04.png' },
+      { text: 'Pojmenuj projekt (klidně třeba "Penny") a potvrď "Create project".', img: '05.png' },
+      { text: 'Appka tě vrátí zpátky s už vybraným projektem - klikni "Create key".', img: '06.png' },
+      { text: 'Appka klíč zobrazí celý, ale jen JEDNOU - hned ho zkopíruj tlačítkem "Copy key". Appka ho pak už jen napůl skryje a znovu celý neukáže.', img: '07.png' },
+      { text: 'Appka se vrátí na seznam - nový klíč tam appka teď ukáže vedle případných starších.', img: '08.png' },
+    ],
+    transferNotice: 'Klíč máš zkopírovaný - teď ho appce Penny buď vlož rovnou na telefonu (Menu → API klíče → API klíče), nebo ho odsud přenes přes QR kód:',
+    transferCta: 'Přenést klíč do telefonu →',
+    footer: 'Penny je nezávislý osobní projekt. Kontakt: ',
+  },
+  en: {
+    pageTitle: 'Penny — Gemini API key guide',
+    h1: 'How to get a Gemini API key',
+    subtitle: "Step by step, with real screenshots - keep this page open next to Google AI Studio and follow along.",
+    panelTitle: 'Before you start',
+    panelList: [
+      "You'll create the key on your OWN Google account - you're agreeing to Google's terms, not Penny's.",
+      "Google explicitly states that you're financially responsible if an unsecured API key gets misused.",
+      'AI Studio asks you to confirm this is "developer/business" use, not casual clicking in the Gemini app itself - this applies to ANYONE creating a key there, even if you never write a line of code and are just following this guide. It has nothing to do with your job - it just means the key is created through a developer console, not a consumer app.',
+      "Gemini API has a free tier that's plenty for normal family use of Penny - up to 500 requests a day, no card, no billing. Check your exact current limit in AI Studio once signed in (Dashboard → Rate limits).",
+    ],
+    termsLink: 'Gemini API terms →',
+    steps: [
+      { text: 'Open <a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">aistudio.google.com/apikey</a> - it redirects you to Google sign-in. Pick or enter your account.', img: '01.png' },
+      { text: 'It first asks about its terms of use ("Welcome to AI Studio") - check the agreement box and click "Continue".', img: '02.png' },
+      { text: 'You land on "API Keys" - click "Create API key" top right.', img: '03.png' },
+      { text: 'It asks for a Google Cloud project - in the dropdown, pick "Create project".', img: '04.png' },
+      { text: 'Name the project (e.g. "Penny") and confirm "Create project".', img: '05.png' },
+      { text: 'You\'re back with the project already selected - click "Create key".', img: '06.png' },
+      { text: 'The key is shown in full, but only ONCE - copy it right away with "Copy key". It only ever shows partially masked after this.', img: '07.png' },
+      { text: "You're back on the list - the new key now shows up alongside any older ones.", img: '08.png' },
+    ],
+    transferNotice: 'Key copied - now either paste it straight into Penny on your phone (Menu → API keys → API keys), or transfer it from here with a QR code:',
+    transferCta: 'Transfer the key to your phone →',
+    footer: 'Penny is an independent personal project. Contact: ',
+  },
+};
+const t = T[jazyk];
+
+document.title = t.pageTitle;
+document.getElementById('h1').textContent = t.h1;
+document.getElementById('subtitle').textContent = t.subtitle;
+document.getElementById('panelTitleText').textContent = t.panelTitle;
+document.getElementById('termsLink').textContent = t.termsLink;
+document.getElementById('panelList').innerHTML =
+  t.panelList.map((s) => '<li>' + s + '</li>').join('');
+document.getElementById('steps').innerHTML = t.steps
+  .map((k) => '<li><p>' + k.text + '</p><img src="' + IMG + k.img + '" alt=""></li>')
+  .join('');
+document.getElementById('transferNotice').textContent = t.transferNotice;
+document.getElementById('transferCta').textContent = t.transferCta;
+document.getElementById('footer').innerHTML =
+  t.footer + '<a href="mailto:info@pennyvoice.com">info@pennyvoice.com</a>';
+</script>
+</body>
+</html>
